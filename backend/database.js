@@ -5,19 +5,19 @@ const mongoURL = process.env.MONGO;
 mongoose.connect(mongoURL).then( () => console.log("Connected to Database"))
 
 const userSchema = mongoose.Schema({
-    userName : {
+    username : {
         type: String,
         minLength : 5,
         maxLength : 30,
         required : true    
     },
-    firstName : {
+    firstname : {
         type: String,
         minLength : 3,
         maxLength : 10,
         required : true
     },
-    lastName : {
+    lastname : {
         type: String,
         minLength : 3,
         maxLength : 10,

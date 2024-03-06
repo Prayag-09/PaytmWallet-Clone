@@ -9,14 +9,14 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const signupBody = zod.object({
     username: zod.string().email(),
-	firstName: zod.string(),
-	lastName: zod.string(),
+	firstname: zod.string(),
+    lastname: zod.string(),
 	password: zod.string()
 })
 
 router.post("/signup", async (req, res) => {
     const { success } = signupBody.safeParse(req.body)
-    if (!success) {
+    if(!success) {
         return res.status(411).json({
             message: "Email already taken / Incorrect inputs"
         })
@@ -26,7 +26,7 @@ router.post("/signup", async (req, res) => {
         username: req.body.username
     })
 
-    if (existingUser) {
+    if(existingUser) {
         return res.status(411).json({
             message: "Email already taken/Incorrect inputs"
         })
@@ -35,8 +35,8 @@ router.post("/signup", async (req, res) => {
     const user = await User.create({
         username: req.body.username,
         password: req.body.password,
-        firstName: req.body.firstName,
-        lastName: req.body.lastName,
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
     })
     const userId = user._id;
 
@@ -54,7 +54,6 @@ router.post("/signup", async (req, res) => {
         token: token
     })
 })
-
 
 const signinBody = zod.object({
     username: zod.string().email(),
@@ -78,13 +77,12 @@ router.post("/signin", async (req, res) => {
         const token = jwt.sign({
             userId: user._id
         }, JWT_SECRET);
-  
+
         res.json({
             token: token
         })
         return;
     }
-
     
     res.status(411).json({
         message: "Error while logging in"
@@ -93,8 +91,8 @@ router.post("/signin", async (req, res) => {
 
 const updateBody = zod.object({
 	password: zod.string().optional(),
-    firstName: zod.string().optional(),
-    lastName: zod.string().optional(),
+    firstname: zod.string().optional(),
+    lastname: zod.string().optional(),
 })
 
 router.put("/", authMiddleware, async (req, res) => {
@@ -119,11 +117,11 @@ router.get("/bulk", async (req, res) => {
 
     const users = await User.find({
         $or: [{
-            firstName: {
+            firstname: {
                 "$regex": filter
             }
         }, {
-            lastName: {
+            lastname: {
                 "$regex": filter
             }
         }]
@@ -132,8 +130,8 @@ router.get("/bulk", async (req, res) => {
     res.json({
         user: users.map(user => ({
             username: user.username,
-            firstName: user.firstName,
-            lastName: user.lastName,
+            firstname: user.firstname,
+            lastname: user.lastname,
             _id: user._id
         }))
     })

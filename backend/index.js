@@ -11,6 +11,4 @@ const mainRoute = require('./routes/index');
 
 app.use("/api/v1",mainRoute);
 
-app.listen(process.env.PORT, () => {
-    console.log('Server up on http://localhost:3000/');
-});
+app.listen(3000);
