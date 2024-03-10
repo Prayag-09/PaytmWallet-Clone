@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 
+postcss.config.js
+tailwind.config.js
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
