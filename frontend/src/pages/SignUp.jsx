@@ -1,8 +1,8 @@
 import Heading from "../components/Heading";
-import { SubHeading } from "../components/SubHeading";
 import Inputbox from "../components/InputBox";
 import Button from "../components/Button";
 import Warning from "../components/Warning";
+import SubHeading from "../components/SubHeading";
 
 function Signup() {
     return (
