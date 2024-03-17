@@ -1,50 +1,50 @@
-import { useState } from "react";
-import Heading from "../components/Heading";
-import Inputbox from "../components/InputBox";
+import { useState } from "react"
+import Inputbox from "../components/Inputbox";
 import Button from "../components/Button";
 import Warning from "../components/Warning";
 import SubHeading from "../components/SubHeading";
-import axios from 'axios';
-// import { useNavigate } from "react-router-dom"
+import Heading from "../components/Heading";
+import axios from "axios";
+import { useNavigate } from "react-router-dom"
 
-function Signup() {
-
-    const [firstName , setFirstName] = useState("");
-    const [lastName , setLastname] = useState("");
-    const [username , setUsername] = useState("");
+export default function Signup() {
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
+    const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
-    return (
-    <div className="grid justify-center w-100 h-screen  border border-black-500 rounded-lg bg-slate-300">
-        <div className="flex justify-center text-center py-20 h-max">
-            <div className="bg-white w-90 px-5 rounded-lg py-8 ">
-
-            <Heading label="Signup"/>
-            <SubHeading label="Enter your information to create an account" />
-
-            <Inputbox onChange={e =>(
-                setFirstName(e.target.value)
-                )} label="First Name" placeHolder="John"/>
-            <Inputbox onChange={e =>(
-                setLastname(e.target.value)
-                )} label="Last Name" placeHolder="Doe"/>
-            <Inputbox onChange={e =>(
-                setUsername(e.target.value)
-                )} label="Email" placeHolder="johndoe@gmail.com "/>
-            <Inputbox onChange={e =>(
-                setPassword(e.target.value)
-                )} label="Password" placeHolder="******"/>
-
-            <div className="pt-4">
-                <Button onClick={async () =>{
-                    await axios.post("http://localhost:3000/api/v1/user/signup" , {firstName,lastName,username,password})
-                }} label="Sign Up"/>
-            </div>
-            <Warning label="Already have account ?" buttontext="Sign in" to={"/signin"} />
-            </div>
+    return <div className="bg-slate-300 h-screen flex justify-center">
+    <div className="flex flex-col justify-center">
+      <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
+        <Heading label={"Sign up"} />
+        <SubHeading label={"Enter your infromation to create an account"} />
+        <Inputbox onChange={e => {
+          setFirstName(e.target.value);
+        }} placeholder="John" label={"First Name"} />
+        <Inputbox onChange={(e) => {
+          setLastName(e.target.value);
+        }} placeholder="Doe" label={"Last Name"} />
+        <Inputbox onChange={e => {
+          setUsername(e.target.value);
+        }} placeholder="harkirat@gmail.com" label={"Email"} />
+        <Inputbox onChange={(e) => {
+          setPassword(e.target.value)
+        }} placeholder="123456" label={"Password"} />
+        <div className="pt-4">
+          <Button onClick={async () => {
+            const response = await axios.post("http://localhost:3000/api/v1/user/signup", {
+              username,
+              firstName,
+              lastName,
+              password
+            });
+            localStorage.setItem("token", response.data.token)
+            navigate("/dashboard")
+          }} label={"Sign up"} />
         </div>
+        <Warning label={"Already have an account?"} buttonText={"Sign in"} to={"/signin"} />
+      </div>
     </div>
-    )
+  </div>
 }
-export default Signup;
