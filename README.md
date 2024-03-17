@@ -1,6 +1,7 @@
-# PayTM Basic Version
+# Wallet/PayTM Basic Version
 
-Welcome to the basic version of PayTM! This project demonstrates the internal workings of a payment application using React and React Router.
+Welcome to the basic version of PayTM which shows it's internal wokring! 
+This project demonstrates the internal workings of a payment application.
 
 ## Description
 
