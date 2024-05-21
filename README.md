@@ -1,4 +1,4 @@
-# Wallet/PayTM Basic Version
+# Wallet/PaytmWallet-Clone
 
 Welcome to the basic version of PayTM which shows it's internal wokring! 
 This project demonstrates the internal workings of a payment application.
@@ -24,7 +24,7 @@ git clone https://github.com/Prayag-09/PaytmWallet-Clone.git
 2. Navigate to the project directory:
 
 ```
-cd paytm-basic-version
+cd PaytmWallet-Clone
 ```
 
 3. Install dependencies:
@@ -36,7 +36,7 @@ npm install
 4. Start the development server:
 
 ```
-npm start
+npm run dev
 ```
 
 5. Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the application.
