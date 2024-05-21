@@ -1,8 +1,30 @@
-/* eslint-disable react/prop-types */
-function Inputbox({label, placeHolder, onChange}) {
-    return <div className="pt-2 text-sm font-medium text-left py-1">
-        <h2>{label}</h2>
-        <input onChange={onChange} className="w-full px-2 py-1 rounded border border-slate-400" type='text' placeholder={placeHolder}/>
-    </div>
+import PropTypes from 'prop-types';
+
+export default function InputBOX({ label, placeholder, type, onChange }) {
+    const inputId = label.replace(/\s+/g, '-').toLowerCase(); // Generate a unique id for the input
+
+    return (
+        <div className="pt-2 text-sm font-medium text-left py-1">
+            <label htmlFor={inputId}>{label}</label>
+            <input
+                id={inputId}
+                onChange={onChange}
+                className="w-full px-2 py-1 rounded border border-slate-400"
+                type={type}
+                placeholder={placeholder}
+            />
+        </div>
+    );
 }
-export default Inputbox;
+
+InputBOX.propTypes = {
+    label: PropTypes.string.isRequired,
+    placeholder: PropTypes.string,
+    type: PropTypes.string,
+    onChange: PropTypes.func.isRequired,
+};
+
+InputBOX.defaultProps = {
+    placeholder: '',
+    type: 'text',
+};
