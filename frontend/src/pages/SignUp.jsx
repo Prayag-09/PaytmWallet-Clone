@@ -1,91 +1,104 @@
 import { useState } from "react";
-import Inputbox from "../components/InputBOX";
-import Button from "../components/Button";
-import Warning from "../components/Warning";
-import SubHeading from "../components/SubHeading";
-import Heading from "../components/Heading";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import { Button } from "../components/Button";
+import { Heading } from "../components/Heading";
+import { InputBox } from "../components/InputBox";
 
-export default function Signup() {
+const Signup = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const handleSignup = async () => {
-    if (!firstName || !lastName || !username || !password) {
-      setError("All fields are required");
-      return;
-    }
-
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setError("");
     setLoading(true);
-    setError(null);
 
     try {
-      const response = await axios.post(
-        "http://localhost:3000/api/v1/user/signup",
-        {
-          username,
-          firstName,
-          lastName,
-          password,
-        }
-      );
+      const response = await axios.post(`http://localhost:3000/api/v1/user/signup`, {
+        firstName,
+        lastName,
+        username,
+        password,
+      });
+
       localStorage.setItem("token", response.data.token);
       navigate("/dashboard");
-    } catch (err) {
-      setError(err.response?.data?.message || "An error occurred");
+    } catch (error) {
+      setError("Signup failed. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-slate-300 h-screen flex justify-center">
-      <div className="flex flex-col justify-center">
-        <div className="rounded-lg bg-white w-80 text-center p-2 h-max px-4">
-          <Heading label={"Sign up"} />
-          <SubHeading label={"Enter your information to create an account"} />
-          <Inputbox
-            onChange={(e) => setFirstName(e.target.value)}
-            placeholder="John"
-            label={"First Name"}
-          />
-          <Inputbox
-            onChange={(e) => setLastName(e.target.value)}
-            placeholder="Doe"
-            label={"Last Name"}
-          />
-          <Inputbox
-            onChange={(e) => setUsername(e.target.value)}
-            placeholder="name@gmail.com"
-            label={"Email"}
-          />
-          <Inputbox
-            onChange={(e) => setPassword(e.target.value)}
-            type="password"
-            placeholder="password"
-            label={"Password"}
-          />
-          {error && <div className="text-red-500 mt-2">{error}</div>}
-          <div className="pt-4">
+    <div className="bg-gray-200 min-h-screen flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-lg max-w-md w-full">
+        <Heading label="Sign Up" className="text-2xl mb-4 text-center text-black" />
+        <form onSubmit={handleSubmit}>
+          <div className="flex flex-col space-y-4">
+            <InputBox
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              placeholder="Enter your first name"
+              label="First Name"
+              required
+              className="border border-gray-300 rounded-md p-2 focus:outline-none"
+            />
+            <InputBox
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              placeholder="Enter your last name"
+              label="Last Name"
+              required
+              className="border border-gray-300 rounded-md p-2 focus:outline-none"
+            />
+            <InputBox
+              type="email"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              placeholder="Enter your email"
+              label="Email"
+              required
+              className="border border-gray-300 rounded-md p-2 focus:outline-none"
+            />
+            <InputBox
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              placeholder="Enter your password"
+              label="Password"
+              required
+              className="border border-gray-300 rounded-md p-2 focus:outline-none"
+            />
+            {error && <p className="text-red-500">{error}</p>}
             <Button
-              onClick={handleSignup}
-              label={loading ? "Signing up..." : "Sign up"}
+              type="submit"
+              label={loading ? "Signing Up..." : "Sign Up"}
               disabled={loading}
+              className="bg-black text-white rounded-md py-2 px-4 transition duration-300 hover:bg-gray-800"
             />
           </div>
-          <Warning
-            label={"Already have an account?"}
-            buttonText={"Sign in"}
-            to={"/signin"}
-          />
-        </div>
+        </form>
+        <p className="mt-4 text-sm text-center text-gray-600">
+          Already have an account?{" "}
+          <span
+            className="text-blue-600 cursor-pointer"
+            onClick={() => navigate("/signin")}
+          >
+            Sign In
+          </span>
+        </p>
       </div>
     </div>
   );
-}
+};
+
+export default Signup;

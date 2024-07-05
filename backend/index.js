@@ -1,14 +1,21 @@
-const express = require("express");
-const app = express();
-const dotenv = require('dotenv').config();
+const express = require('express');
 const cors = require('cors');
+const rootRouter = require('./routes/index');
+
+const app = express();
+const PORT = process.env.PORT || 3000;
 
 app.use(cors());
 app.use(express.json());
+app.use('/api/v1', rootRouter);
 
-const SECRET = process.env.JWT_SECRET;
-const mainRoute = require('./routes/index');
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).json({ message: 'Something went wrong!', error: err.message });
+});
 
-app.use("/api/v1",mainRoute);
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
 
-app.listen(3000);
+module.exports = app;

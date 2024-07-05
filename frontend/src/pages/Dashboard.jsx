@@ -1,14 +1,17 @@
-import Appbar from "../components/AppBar"
-import Balance from "../components/Balance"
-import Users from "../components/Users"
+import { Appbar } from "../components/Appbar";
+import { Balance } from "../components/Balance";
+import { Users } from "../components/Users";
 
 const Dashboard = () => {
     return (
         <div>
-            <Appbar label="PayTM" profile="Prayag" logo="You" />
-            <Balance label="10000" />
-            <Users  />
+            <Appbar />
+            <div className="m-8">
+                <Balance value={"10,000"} />
+                <Users />
+            </div>
         </div>
-    )
-}
+    );
+};
+
 export default Dashboard;
